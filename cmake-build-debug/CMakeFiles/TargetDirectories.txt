@@ -1,0 +1,3 @@
+/home/joseph/Documents/QuickhullNew/cmake-build-debug/CMakeFiles/Quickhull.dir
+/home/joseph/Documents/QuickhullNew/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/joseph/Documents/QuickhullNew/cmake-build-debug/CMakeFiles/rebuild_cache.dir
