@@ -12,8 +12,8 @@ public:
     QuickHull(const float xCoords[], const float yCoords[], int numberOfCoords);
 
     //std::vector<coord> convexHull();
-    //std::set<coord> convexHull();
-    void convexHull();
+    std::set<coord> convexHull();
+    //void convexHull();
 
 private:
     std::vector<coord> inputCoords;

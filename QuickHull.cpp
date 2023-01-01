@@ -34,7 +34,7 @@ QuickHull::QuickHull(const float *xCoords, const float *yCoords, int numberOfCoo
     std::sort(inputCoords.begin(), inputCoords.end());
 }
 
-void QuickHull::convexHull() {
+std::set<coord> QuickHull::convexHull() {
     // add both extreme x points to convex hull
     // (vector is sorted by x values in constructor)
     coord minXPoint = inputCoords[ 0 ] ;
@@ -58,7 +58,7 @@ void QuickHull::convexHull() {
             bottomSubset.emplace_back(i);
         }
     }
-    
+
 
     quickHull(&topSubset, &minXPoint, &maxXPoint, isAboveLine(minXPoint, maxXPoint, topSubset[0]));
 
@@ -68,11 +68,7 @@ void QuickHull::convexHull() {
     std::set<coord> convexHull(convexHullCoordVector.begin(),
                                convexHullCoordVector.end());
 
-    std::cout << "\n";
-    for (coord i : convexHull) {
-        std::cout << "( " << i.first << ", " << i.second << "), ";
-    }
-    std::cout << std::endl;
+    return convexHull;
 }
 
 bool QuickHull::isAboveLine(std::pair<float, float> linePoint1, std::pair<float, float> linePoint2,
