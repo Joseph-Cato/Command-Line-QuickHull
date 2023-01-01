@@ -13,10 +13,12 @@ public:
 
     //std::vector<coord> convexHull();
     std::set<coord> convexHull();
+    //void convexHull();
 
 private:
     std::vector<coord> inputCoords;
     std::set<coord> convexHullCoordSet;
+    std::vector<coord> convexHullCoordVector;
 
     static bool isAboveLine(coord linePoint1, coord linePoint2, coord targetPoint);
 
@@ -27,7 +29,7 @@ private:
 
     static void removeInteriorPoints(coord linePoint1, coord linePoint2, coord targetPoint, std::vector<coord> *subset);
 
-    void quickHull(std::vector<coord> *inputCoords, coord linePoint1, coord linePoint2, bool aboveLine);
+    void quickHull(std::vector<coord> *inputCoords, coord *linePoint1, coord *linePoint2, bool aboveLine);
 };
 
 
