@@ -35,7 +35,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -Wall -Wextra -lm -O2 -lstdc++ -g -fdiagnostics-color=always"
+					"fragment" : " -g -Wall -Wextra -lm -O2 -lstdc++ -g -fdiagnostics-color=always"
 				},
 				{
 					"fragment" : "-std=gnu++23"
@@ -63,7 +63,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-Wall -Wextra -lm -O2 -lstdc++ -g",
+				"fragment" : "-g -Wall -Wextra -lm -O2 -lstdc++ -g",
 				"role" : "flags"
 			},
 			{

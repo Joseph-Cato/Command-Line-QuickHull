@@ -51,13 +51,13 @@ build cmake_object_order_depends_target_Quickhull: phony || CMakeFiles/Quickhull
 
 build CMakeFiles/Quickhull.dir/demo.cpp.o: CXX_COMPILER__Quickhull_Debug /home/joseph/Documents/QuickhullNew/demo.cpp || cmake_object_order_depends_target_Quickhull
   DEP_FILE = CMakeFiles/Quickhull.dir/demo.cpp.o.d
-  FLAGS = -Wall -Wextra -lm -O2 -lstdc++ -g -fdiagnostics-color=always -std=gnu++23
+  FLAGS = -g -Wall -Wextra -lm -O2 -lstdc++ -g -fdiagnostics-color=always -std=gnu++23
   OBJECT_DIR = CMakeFiles/Quickhull.dir
   OBJECT_FILE_DIR = CMakeFiles/Quickhull.dir
 
 build CMakeFiles/Quickhull.dir/QuickHull.cpp.o: CXX_COMPILER__Quickhull_Debug /home/joseph/Documents/QuickhullNew/QuickHull.cpp || cmake_object_order_depends_target_Quickhull
   DEP_FILE = CMakeFiles/Quickhull.dir/QuickHull.cpp.o.d
-  FLAGS = -Wall -Wextra -lm -O2 -lstdc++ -g -fdiagnostics-color=always -std=gnu++23
+  FLAGS = -g -Wall -Wextra -lm -O2 -lstdc++ -g -fdiagnostics-color=always -std=gnu++23
   OBJECT_DIR = CMakeFiles/Quickhull.dir
   OBJECT_FILE_DIR = CMakeFiles/Quickhull.dir
 
@@ -70,7 +70,7 @@ build CMakeFiles/Quickhull.dir/QuickHull.cpp.o: CXX_COMPILER__Quickhull_Debug /h
 # Link the executable Quickhull
 
 build Quickhull: CXX_EXECUTABLE_LINKER__Quickhull_Debug CMakeFiles/Quickhull.dir/demo.cpp.o CMakeFiles/Quickhull.dir/QuickHull.cpp.o
-  FLAGS = -Wall -Wextra -lm -O2 -lstdc++ -g
+  FLAGS = -g -Wall -Wextra -lm -O2 -lstdc++ -g
   OBJECT_DIR = CMakeFiles/Quickhull.dir
   POST_BUILD = :
   PRE_LINK = :

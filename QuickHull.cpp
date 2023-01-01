@@ -34,8 +34,7 @@ QuickHull::QuickHull(const float *xCoords, const float *yCoords, int numberOfCoo
     std::sort(inputCoords.begin(), inputCoords.end());
 }
 
-//std::vector<coord > QuickHull::convexHull() {
-std::set<coord> QuickHull::convexHull() {
+void QuickHull::convexHull() {
     // add both extreme x points to convex hull
     // (vector is sorted by x values in constructor)
     coord minXPoint = inputCoords[ 0 ] ;
@@ -43,8 +42,6 @@ std::set<coord> QuickHull::convexHull() {
 
     convexHullCoordSet.insert(minXPoint);
     convexHullCoordSet.insert(maxXPoint);
-    //convexHullCoordVector.emplace_back( minXPoint );
-    //convexHullCoordVector.emplace_back( maxXPoint );
 
     // removes extreme x point from input coords
     inputCoords.erase(inputCoords.begin());
@@ -61,12 +58,21 @@ std::set<coord> QuickHull::convexHull() {
             bottomSubset.emplace_back(i);
         }
     }
+    
 
-    quickHull(&topSubset, minXPoint, maxXPoint, isAboveLine(minXPoint, maxXPoint, topSubset[0]));
-    quickHull(&bottomSubset, minXPoint, maxXPoint, isAboveLine(minXPoint, maxXPoint, bottomSubset[0]));
+    quickHull(&topSubset, &minXPoint, &maxXPoint, isAboveLine(minXPoint, maxXPoint, topSubset[0]));
 
-    //return convexHullCoordVector;
-    return convexHullCoordSet;
+
+    quickHull(&bottomSubset, &minXPoint, &maxXPoint, isAboveLine(minXPoint, maxXPoint, bottomSubset[0]));
+
+    std::set<coord> convexHull(convexHullCoordVector.begin(),
+                               convexHullCoordVector.end());
+
+    std::cout << "\n";
+    for (coord i : convexHull) {
+        std::cout << "( " << i.first << ", " << i.second << "), ";
+    }
+    std::cout << std::endl;
 }
 
 bool QuickHull::isAboveLine(std::pair<float, float> linePoint1, std::pair<float, float> linePoint2,
@@ -101,33 +107,38 @@ void QuickHull::removeInteriorPoints(coord linePoint1, coord linePoint2, coord t
 
     int lengthCompensation = 0;
 
-    for (int i = 0; i < (int) subset->size(); i++) {
-        coord point = subset->at(i);
+    std::vector<int> flags;
+
+    for (auto point : *subset) {
         float area = areaOfTriangle(point, linePoint2, targetPoint) + areaOfTriangle(linePoint1, point, targetPoint) +
                      areaOfTriangle(linePoint1, linePoint2, point);
 
         if (almost_equal(area, originalArea, 3)) {
+            flags.emplace_back(0);
+        } else {
+            flags.emplace_back(1);
+        }
+    }
+
+
+    for (int i = 0; i < (int) flags.size(); i++) {
+        if (flags.at(i) == 0){
             subset->erase( subset->begin()+i-lengthCompensation);
             lengthCompensation += 1;
         }
     }
+
+
 }
 
-void QuickHull::quickHull(std::vector<coord> *coordVector, coord linePoint1,
-                          coord linePoint2, bool aboveLine) {
-
-    std::cout << "DEBUG: " << "quickHull Call\n";
-    std::cout << "DEBUG: " << "     linePoint1: " << linePoint1.first << ", " << linePoint1.second << "\n";
-    std::cout << "DEBUG: " << "     linePoint2: " << linePoint2.first << ", " << linePoint2.second << "\n";
-
+void QuickHull::quickHull(std::vector<coord> *coordVector, coord *linePoint1,
+                          coord *linePoint2, bool aboveLine) {
     bool exteriorPoint = true;
     int maxDistanceIndex = 0;
-    float maxDistance = distanceFromLine(linePoint1, linePoint2, coordVector->at(maxDistanceIndex));
+    float maxDistance = 0;
 
-    for (int i = 1; i < (int) coordVector->size(); i++) {
-        float distance = distanceFromLine(linePoint1, linePoint2, coordVector->at(i));
-        std::cout << "DEBUG: " << "         Point: " << coordVector->at(i).first << ", " << coordVector->at(i).second << "\n";
-        std::cout << "DEBUG: " << "         Distance: " << distance << "\n\n";
+    for (int i = 0; i < (int) coordVector->size(); i++) {
+        float distance = distanceFromLine(*linePoint1, *linePoint2, coordVector->at(i));
         if (distance > maxDistance) {
             maxDistance = distance;
             maxDistanceIndex = i;
@@ -136,22 +147,15 @@ void QuickHull::quickHull(std::vector<coord> *coordVector, coord linePoint1,
     }
 
     if (exteriorPoint) {
-        std::cout << "DEBUG: " << "     determined as exterior point: " << "\n";
-        convexHullCoordSet.insert(linePoint1);
-        convexHullCoordSet.insert(linePoint2);
-        //convexHullCoordVector.emplace_back(linePoint1);
-        //convexHullCoordVector.emplace_back(linePoint2);
+        convexHullCoordVector.emplace_back(*linePoint1);
+        convexHullCoordVector.emplace_back(*linePoint2);
         return;
     }
 
-    std::cout << "DEBUG: " << "     maxDistance: " << maxDistance << "\n";
-
     coord newTargetCoord = coordVector->at(maxDistanceIndex);
 
-    std::cout << "DEBUG: " << "     maxDistancePoint: " << newTargetCoord.first << ", " << newTargetCoord.second << "\n";
+    removeInteriorPoints(*linePoint1, *linePoint2, newTargetCoord, coordVector);
 
-    removeInteriorPoints(linePoint1, linePoint2, newTargetCoord, coordVector);
-
-    quickHull(coordVector, linePoint1, newTargetCoord, aboveLine);
-    quickHull(coordVector, linePoint2, newTargetCoord, aboveLine);
+    quickHull(coordVector, linePoint1, &newTargetCoord, aboveLine);
+    quickHull(coordVector, linePoint2, &newTargetCoord, aboveLine);
 }
