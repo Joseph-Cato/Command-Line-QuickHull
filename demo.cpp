@@ -6,6 +6,13 @@
 #include "QuickHull.h"
 
 int main() {
+    /*
+    *
+    *       This file is just to demonstrate the QuickHull class in action and time its performance.
+     *      Nothing here affects the algorithm and can all be removed.
+    *
+    *
+    */
 
     std::cout << "\n-----------------------------QuickHull Demo:-----------------------------\n\n\n";
 
